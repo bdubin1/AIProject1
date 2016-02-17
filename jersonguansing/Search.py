@@ -125,22 +125,22 @@ def main():
 		
 		# read the input file and create the graph
 		graph = readFile(inputFile)
-
+		visited.append(start)
 		# do the search based on command line argument
 		if searchType == "DFS":
-			stack = [ (start, list(start)) ]
+			stack = [ (start, visited) ]
 			visited = dfs(graph, end, stack)
 		elif searchType == "UCS":
 			priorityQueue = Q.PriorityQueue()
-			priorityQueue.put((0, start, list(start)))
+			priorityQueue.put((0, start, visited))
 			visited = ucs(graph, end, priorityQueue)
 		elif searchType == "BFS":
 			queue = deque()
-			queue.append((start, list(start)))
+			queue.append((start, visited))
 			visited = bfs(graph, end, queue)
 		else:
-			dfs(graph, start, end, visited)
-		
+			stack = [ (start, visited) ]
+			visited = dfs(graph, end, stack)
 		writeFile(outputFile, visited)
 
 # call the main function
